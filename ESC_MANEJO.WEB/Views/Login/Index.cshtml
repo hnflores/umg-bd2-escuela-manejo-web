@@ -1,6 +1,4 @@
-﻿@{
-    Layout = null;
-}
+﻿@{ Layout = null; }
 
 
 <!DOCTYPE html>
@@ -8,11 +6,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Escuela de Manejo</title>
+    <title>Escuela de Manejo | Login</title>
     <link href="~/libs/material-icons/css/materialdesignicons.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/vendor.addons.css">
     <link rel="stylesheet" href="~/css/style.css">
     <link rel="stylesheet" href="~/css/theme.css">
+
+    <link href="~/libs/iziToast/iziToast.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -20,29 +20,28 @@
         <div class="row inner-wrapper">
             <div class="col-md-7 banner-section">
                 <div class="auth_footer">
-                    <p class="text-muted text-center">© Ripple Inc 2019</p>
+                    <p class="text-muted text-center">Escuela de Manejo</p>
                 </div>
             </div>
             <div class="col-md-5 form-section">
                 <div class="logo-section">
-                    <a href="../../index.html" class="logo">
-                        <img src="../../../assets/images/logo.svg" alt="logo">
+                    <a href="#" class="logo">
+                        <img src="~/images/logo.svg" alt="logo">
                     </a>
                 </div>
-                <form action="#">
+                <form method="POST" asp-antiforgery="true" class="needs-validation" novalidate>
                     <div class="form-group input-rounded">
-                        <input type="text" class="form-control"
-                               placeholder="Usuario">
+                        <input id="user" type="email" class="form-control" placeholder="Usuario" required>
                     </div>
                     <div class="form-group input-rounded">
-                        <input type="password" class="form-control"
-                               placeholder="Contraseña">
+                        <input id="current-password" type="password" class="form-control" placeholder="Contraseña" required>
                     </div>
                     <div class="form-inline">
-                        
-                    </div><button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+
+                    </div>
+                    <button id="btnLogin" type="submit" class="btn btn-primary btn-block">Ingresar</button>
                 </form>
-                
+
             </div>
         </div>
     </div>
@@ -52,6 +51,10 @@
     <script src="~/js/core.js"></script>
     <script src="~/js/vendor.addons.js"></script>
     <script src="~/js/script.js"></script>
+    <script src="~/libs/iziToast/iziToast.min.js"></script>
+
+    <script src="~/js/pages/_core.js" asp-append-version="true"></script>
+    <script src="~/js/pages/_login.js" asp-append-version="true"></script>
 </body>
 
 </html>
