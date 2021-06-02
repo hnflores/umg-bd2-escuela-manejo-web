@@ -21,9 +21,7 @@ async function LogIn() {
     const request = {
         token: document.getElementsByName('__RequestVerificationToken')[0].value,
         UserName: document.getElementById('user').value,
-        Security: {
-            Password: document.getElementById('current-password').value
-        }
+        Password: document.getElementById('current-password').value
     }
     await showButtonLoading('btnLogin');
     const response = await http('/Login/LogIn', 'POST', request, '/Home/Error/500', request.token);

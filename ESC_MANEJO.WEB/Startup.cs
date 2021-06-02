@@ -3,16 +3,12 @@ using ESC_MANEJO.CORE.Interfaces;
 using ESC_MANEJO.CORE.Services;
 using ESC_MANEJO.INFRASTRUCTURE.Repositories;
 using ESC_MANEJO.WEB.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ESC_MANEJO.WEB
 {
@@ -36,14 +32,21 @@ namespace ESC_MANEJO.WEB
             services.AddTransient<IParseService, ParseService>();
             services.AddTransient<ILogService, LogService>();
             services.AddTransient<IHttpService, HttpService>();
-            
+
             services.AddTransient<ICryptoService, CryptoService>();
 
             services.AddTransient<IAdminService, AdminService>();
 
             services.AddTransient<IAdminRepository, AdminRepository>();
-            
+
             services.AddControllersWithViews();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.LoginPath = $"/Login/";
+                options.LogoutPath = $"/Home/logout";
+                options.AccessDeniedPath = $"/account/accessDenied";                
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +66,7 @@ namespace ESC_MANEJO.WEB
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
