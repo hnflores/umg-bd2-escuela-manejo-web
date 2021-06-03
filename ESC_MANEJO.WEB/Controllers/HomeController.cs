@@ -17,12 +17,13 @@ namespace ESC_MANEJO.WEB.Controllers
 
         public HomeController(ILogger<HomeController> logger)
         {
-            _logger = logger;            
+            _logger = logger;
         }
 
         [Authorize]
         public IActionResult Index()
         {
+            TempData["mydata"] = "data";
             return View();
         }
 

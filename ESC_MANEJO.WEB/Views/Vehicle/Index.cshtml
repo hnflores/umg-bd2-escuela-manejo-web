@@ -1,0 +1,72 @@
+﻿@model List<Vehicle>
+@{
+    ViewData["Title"] = "Vehiculos";
+}
+
+<div class="page-content-wrapper-inner">
+    <div class="viewport-header">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb has-arrow">
+                <li class="breadcrumb-item"><a href="#">Vehiculos</a></li>
+                <li class="breadcrumb-item active"><a href="#">Lista de Vehiculos</a></li>
+            </ol>
+        </nav>
+    </div>
+    <div class="content-viewport">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="grid">
+                    <div class="grid-body">
+                        <div class="text-right mb-5">
+                            <a asp-action="Add" class="btn btn-primary">Agregar Vehiculo &nbsp; <i class="mdi mdi-plus-circle link-icon"></i></a>
+                        </div>
+                        <div class="item-wrapper">
+                            <div class="table-responsive">
+                                <table id="dtVehicles" class="data-table table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Placa</th>
+                                            <th>Marca</th>
+                                            <th>Modelo</th>
+                                            <th>Anio</th>
+                                            <th>Fecha Compra</th>
+                                            <th>Estado</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (Vehicle vehicle in Model)
+                                        {
+                                            <tr>
+                                                <td>@vehicle.VehicleId</td>
+                                                <td>@vehicle.Marca</td>
+                                                <td>@vehicle.Modelo</td>
+                                                <td>@vehicle.Anio</td>
+                                                <td>@vehicle.FechaCompra.ToString("dd/MM/yyyy")</td>
+                                                @if (vehicle.Estado == "A")
+                                                {
+                                                    <td>Activo</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>Desconocido</td>
+                                                }
+                                                <td>
+                                                    <a href="javascript:void(0);" onclick="Edit('@vehicle.VehicleId')" class="btn btn-warning">Editar &nbsp; <i class="mdi mdi-circle-edit-outline link-icon"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/pages/vehicle/_index.js" asp-append-version="true"></script>
+}

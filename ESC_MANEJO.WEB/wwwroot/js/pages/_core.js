@@ -42,13 +42,17 @@ async function hideButtonLoading(buttonId) {
     body.style.display = 'block';
     button.toggleAttribute('disabled', false);
 }
-async function showIziToastSuccess(position) {
+async function showIziToastSuccess(position, urlRedirect = '') {
     iziToast.show({
         title: 'Excelente!',
         message: 'Proceso realizado correctamente.',
         color: 'green',
         position,
-        timeout: 2500
+        timeout: 2500,
+        onClosed: function () {
+            if (urlRedirect.length > 0)
+                location.href = urlRedirect;
+        }
     });
 }
 async function showIziToastError(message, position) {

@@ -1,0 +1,109 @@
+﻿@model Vehicle
+@{
+    ViewData["Title"] = "Editar Vehiculo";
+}
+
+
+<div class="page-content-wrapper-inner">
+    <div class="viewport-header">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb has-arrow">
+                <li class="breadcrumb-item"><a asp-action="">Vehiculos</a></li>
+                <li class="breadcrumb-item active"><a href="#">Editar Vehiculo</a></li>
+            </ol>
+        </nav>
+    </div>
+    <div class="content-viewport">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="grid">
+                    <div class="grid-body">
+                        <div class="item-wrapper">
+                            <form asp-antiforgery="true" method="post" class="needs-validation" novalidate>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Placa</label>
+                                        <input id="placa" type="text" value="@Model.VehicleId" class="form-control" maxlength="10" required disabled />
+                                        <div class="invalid-feedback">
+                                            El campo es obligatorio
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Marca</label>
+                                        <input id="marca" type="text" value="@Model.Marca" class="form-control" maxlength="20" required />
+                                        <div class="invalid-feedback">
+                                            El campo es obligatorio
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Modelo</label>
+                                        <input id="modelo" type="text" value="@Model.Modelo" class="form-control" maxlength="20" required />
+                                        <div class="invalid-feedback">
+                                            El campo es obligatorio
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Año</label>
+                                        <input id="anio" type="number" value="@Model.Anio" class="form-control" maxlength="4" required />
+                                        <div class="invalid-feedback">
+                                            El campo es obligatorio
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Fecha de Compra</label>
+                                        <input id="fecha-compra" type="date" value="@Model.FechaCompra.ToString("dd-MM-yyyy")" class="form-control" required />
+                                        <div class="invalid-feedback">
+                                            El campo es obligatorio
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Estado</label>
+                                        <select id="estado" class="custom-select" required>
+                                            @switch (Model.Estado)
+                                            {
+                                                case "A":
+                                                    <option value="A" selected>Activo</option>
+                                                    <option value="I">Inactivo</option>
+                                                    <option value="O"> Ocupado</option>
+                                                    break;
+                                                case "I":
+                                                    <option value="A">Activo</option>
+                                                    <option value="I" selected>Inactivo</option>
+                                                    <option value="O">Ocupado</option>
+                                                    break;
+                                                case "O":
+                                                    <option value="A">Activo</option>
+                                                    <option value="I">Inactivo</option>
+                                                    <option value="O" selected>Ocupado</option>
+                                                    break;
+                                            }
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            El campo es obligatorio
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="text-center mt-5">
+                                    <button id="btnUpdate" type="submit" class="btn btn-primary">
+                                        <div class="btn-load" style="display:none">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            Procesando...
+                                        </div>
+                                        <div class="btn-visible">
+                                            Editar Vehiculo
+                                        </div>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/pages/vehicle/_edit.js" asp-append-version="true"></script>
+}

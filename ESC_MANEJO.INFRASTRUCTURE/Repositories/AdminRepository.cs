@@ -1,4 +1,5 @@
-﻿using ESC_MANEJO.CORE.Entities.Administrator;
+﻿using ESC_MANEJO.CORE.Entities;
+using ESC_MANEJO.CORE.Entities.Administrator;
 using ESC_MANEJO.CORE.Entities.Configuration;
 using ESC_MANEJO.CORE.Entities.Response;
 using ESC_MANEJO.CORE.Entities.Services;
@@ -43,11 +44,11 @@ namespace ESC_MANEJO.INFRASTRUCTURE.Repositories
                 }
                 };
                 HttpServiceResponse<Response<string>> httpResponse = await _httpService.POST<Response<string>>(httpRequest);
+                responseAPI.Code = httpResponse.Code;
                 if (httpResponse.Code == ResponseCode.Success)
                     responseAPI = httpResponse.Data;
                 else
                 {
-                    responseAPI.Code = httpResponse.Code;
                     if (httpResponse.Code == ResponseCode.Error)
                         responseAPI.Description = httpResponse.Description;
                     else if (httpResponse.Code == ResponseCode.FatalError)
@@ -61,6 +62,164 @@ namespace ESC_MANEJO.INFRASTRUCTURE.Repositories
                 responseAPI.Code = ResponseCode.FatalError;
                 responseAPI.Description = _messagesDefault.FatalErrorMessage;
                 _logService.SaveLogApp($"[{nameof(LogIn)}-{nameof(Exception)}] {ex.Message}|{ex.StackTrace}", LogType.Error);
+
+            }
+            return responseAPI;
+
+        }
+
+
+        public async Task<Response<List<Vehicle>>> GetVehicles()
+        {
+            Response<List<Vehicle>> responseAPI = new();
+            try
+            {
+                HttpServiceRequest httpRequest = new()
+                {
+                    Uri = new Uri(_configurationRepository.Admin.Url),
+                    Method = _configurationRepository.Admin.MethodGetVehicles,
+                    Body = string.Empty,
+                    Headers = new Dictionary<string, string>
+                {
+                    { "Key-Auth", _configurationRepository.Admin.KeyAuth }
+                }
+                };
+                HttpServiceResponse<Response<List<Vehicle>>> httpResponse = await _httpService.POST<Response<List<Vehicle>>>(httpRequest);
+                responseAPI.Code = httpResponse.Code;
+                if (httpResponse.Code == ResponseCode.Success)
+                    responseAPI = httpResponse.Data;
+                else
+                {
+                    if (httpResponse.Code == ResponseCode.Error)
+                        responseAPI.Description = httpResponse.Description;
+                    else if (httpResponse.Code == ResponseCode.FatalError)
+                        responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                    else if (httpResponse.Code == ResponseCode.Timeout)
+                        responseAPI.Description = _messagesDefault.TimeoutMessage;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseAPI.Code = ResponseCode.FatalError;
+                responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                _logService.SaveLogApp($"[{nameof(GetVehicles)}-{nameof(Exception)}] {ex.Message}|{ex.StackTrace}", LogType.Error);
+
+            }
+            return responseAPI;
+
+        }
+        public async Task<Response<Vehicle>> GetVehicle(Vehicle request)
+        {
+            Response<Vehicle> responseAPI = new();
+            try
+            {
+                HttpServiceRequest httpRequest = new()
+                {
+                    Uri = new Uri(_configurationRepository.Admin.Url),
+                    Method = _configurationRepository.Admin.MethodGetVehicle,
+                    Body = _parseService.Serialize(request),
+                    Headers = new Dictionary<string, string>
+                {
+                    { "Key-Auth", _configurationRepository.Admin.KeyAuth }
+                }
+                };
+                HttpServiceResponse<Response<Vehicle>> httpResponse = await _httpService.POST<Response<Vehicle>>(httpRequest);
+                responseAPI.Code = httpResponse.Code;
+                if (httpResponse.Code == ResponseCode.Success)
+                    responseAPI = httpResponse.Data;
+                else
+                {
+                    if (httpResponse.Code == ResponseCode.Error)
+                        responseAPI.Description = httpResponse.Description;
+                    else if (httpResponse.Code == ResponseCode.FatalError)
+                        responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                    else if (httpResponse.Code == ResponseCode.Timeout)
+                        responseAPI.Description = _messagesDefault.TimeoutMessage;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseAPI.Code = ResponseCode.FatalError;
+                responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                _logService.SaveLogApp($"[{nameof(GetVehicle)}-{nameof(Exception)}] {ex.Message}|{ex.StackTrace}", LogType.Error);
+
+            }
+            return responseAPI;
+
+        }
+        public async Task<Response<string>> AddVehicle(Vehicle request)
+        {
+            Response<string> responseAPI = new();
+            try
+            {
+                HttpServiceRequest httpRequest = new()
+                {
+                    Uri = new Uri(_configurationRepository.Admin.Url),
+                    Method = _configurationRepository.Admin.MethodAddVehicle,
+                    Body = _parseService.Serialize(request),
+                    Headers = new Dictionary<string, string>
+                {
+                    { "Key-Auth", _configurationRepository.Admin.KeyAuth }
+                }
+                };
+                HttpServiceResponse<Response<string>> httpResponse = await _httpService.POST<Response<string>>(httpRequest);
+                responseAPI.Code = httpResponse.Code;
+                if (httpResponse.Code == ResponseCode.Success)
+                    responseAPI = httpResponse.Data;
+                else
+                {
+                    if (httpResponse.Code == ResponseCode.Error)
+                        responseAPI.Description = httpResponse.Description;
+                    else if (httpResponse.Code == ResponseCode.FatalError)
+                        responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                    else if (httpResponse.Code == ResponseCode.Timeout)
+                        responseAPI.Description = _messagesDefault.TimeoutMessage;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseAPI.Code = ResponseCode.FatalError;
+                responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                _logService.SaveLogApp($"[{nameof(AddVehicle)}-{nameof(Exception)}] {ex.Message}|{ex.StackTrace}", LogType.Error);
+
+            }
+            return responseAPI;
+
+        }
+        public async Task<Response<string>> UpdateVehicle(Vehicle request)
+        {
+            Response<string> responseAPI = new();
+            try
+            {
+                HttpServiceRequest httpRequest = new()
+                {
+                    Uri = new Uri(_configurationRepository.Admin.Url),
+                    Method = _configurationRepository.Admin.MethodUpdateVehicle,
+                    Body = _parseService.Serialize(request),
+                    Headers = new Dictionary<string, string>
+                {
+                    { "Key-Auth", _configurationRepository.Admin.KeyAuth }
+                }
+                };
+                HttpServiceResponse<Response<string>> httpResponse = await _httpService.POST<Response<string>>(httpRequest);
+                responseAPI.Code = httpResponse.Code;
+                if (httpResponse.Code == ResponseCode.Success)
+                    responseAPI = httpResponse.Data;
+                else
+                {
+                    if (httpResponse.Code == ResponseCode.Error)
+                        responseAPI.Description = httpResponse.Description;
+                    else if (httpResponse.Code == ResponseCode.FatalError)
+                        responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                    else if (httpResponse.Code == ResponseCode.Timeout)
+                        responseAPI.Description = _messagesDefault.TimeoutMessage;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseAPI.Code = ResponseCode.FatalError;
+                responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                _logService.SaveLogApp($"[{nameof(UpdateVehicle)}-{nameof(Exception)}] {ex.Message}|{ex.StackTrace}", LogType.Error);
 
             }
             return responseAPI;
