@@ -43,14 +43,22 @@
                                                 <td>@vehicle.Modelo</td>
                                                 <td>@vehicle.Anio</td>
                                                 <td>@vehicle.FechaCompra.ToString("dd/MM/yyyy")</td>
-                                                @if (vehicle.Estado == "A")
+                                                @switch (vehicle.Estado)
                                                 {
-                                                    <td>Activo</td>
+                                                    case "A":
+                                                        <td>Activo</td>
+                                                        break;
+                                                    case "I":
+                                                        <td>Inactivo</td>
+                                                        break;
+                                                    case "O":
+                                                        <td>Ocupado</td>
+                                                        break;
+                                                    default:
+                                                        <td>Desconocido</td>
+                                                        break;
                                                 }
-                                                else
-                                                {
-                                                    <td>Desconocido</td>
-                                                }
+
                                                 <td>
                                                     <a href="javascript:void(0);" onclick="Edit('@vehicle.VehicleId')" class="btn btn-warning">Editar &nbsp; <i class="mdi mdi-circle-edit-outline link-icon"></i></a>
                                                 </td>

@@ -51,7 +51,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label>Fecha de Compra</label>
-                                        <input id="fecha-compra" type="date" value="@Model.FechaCompra.ToString("dd-MM-yyyy")" class="form-control" required />
+                                        <input id="fecha-compra" type="date" value="@Model.FechaCompra.ToString("yyyy-MM-dd")" class="form-control" required />
                                         <div class="invalid-feedback">
                                             El campo es obligatorio
                                         </div>
@@ -75,6 +75,11 @@
                                                     <option value="A">Activo</option>
                                                     <option value="I">Inactivo</option>
                                                     <option value="O" selected>Ocupado</option>
+                                                    break;
+                                                default:
+                                                    <option value="A">Activo</option>
+                                                    <option value="I">Inactivo</option>
+                                                    <option value="O">Ocupado</option>
                                                     break;
                                             }
                                         </select>
