@@ -45,7 +45,7 @@ namespace ESC_MANEJO.WEB.Controllers
                 {
                     List<Claim> claims = new()
                     {
-                        new Claim(ClaimTypes.Name, user.UserName)
+                        new Claim(ClaimTypes.Name, user.Correo)
                     };
                     ClaimsIdentity claimsIdentity = new(
                     claims, CookieAuthenticationDefaults.AuthenticationScheme);

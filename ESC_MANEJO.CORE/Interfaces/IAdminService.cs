@@ -9,9 +9,16 @@ namespace ESC_MANEJO.CORE.Interfaces
     public interface IAdminService
     {
         Task<Response<string>> LogIn(User request);
+        Task<Response<List<User>>> GetDrivers();
+
         Task<Response<List<Vehicle>>> GetVehicles();
         Task<Response<Vehicle>> GetVehicle(string vehicleId);
         Task<Response<string>> AddVehicle(Vehicle request);
         Task<Response<string>> UpdateVehicle(Vehicle request);
+
+        Task<Response<List<Customer>>> GetCustomers();
+        Task<Response<Customer>> GetCustomerById(string customerId);
+        Task<Response<string>> AddContract(Contract request);
+        Task<Response<List<Contract>>> GetContracts();
     }
 }

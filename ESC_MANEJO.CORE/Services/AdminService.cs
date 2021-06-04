@@ -42,9 +42,9 @@ namespace ESC_MANEJO.CORE.Services
             }
             return responseAPI;
         }
+        public async Task<Response<List<User>>> GetDrivers() => await _adminRepository.GetDrivers();
 
         public async Task<Response<List<Vehicle>>> GetVehicles() => await _adminRepository.GetVehicles();
-
         public async Task<Response<Vehicle>> GetVehicle(string vehicleId)
         {
             Response<Vehicle> responseAPI = new();
@@ -62,6 +62,27 @@ namespace ESC_MANEJO.CORE.Services
         }
         public async Task<Response<string>> AddVehicle(Vehicle request) => await _adminRepository.AddVehicle(request);
         public async Task<Response<string>> UpdateVehicle(Vehicle request) => await _adminRepository.UpdateVehicle(request);
+
+        public async Task<Response<List<Customer>>> GetCustomers() => await _adminRepository.GetCustomers();
+        public async Task<Response<Customer>> GetCustomerById(string customerId)
+        {
+            Response<Customer> responseAPI = new();
+            try
+            {
+                responseAPI = await _adminRepository.GetCustomerById(new Customer { CustomerId = customerId });
+            }
+            catch (Exception ex)
+            {
+                responseAPI.Code = ResponseCode.FatalError;
+                responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                _logService.SaveLogApp($"[{nameof(GetCustomerById)},{nameof(AdminService)}-{nameof(Exception)}] {ex.Message}|{ex.StackTrace}", LogType.Error);
+            }
+            return responseAPI;
+        }
+
+        public async Task<Response<string>> AddContract(Contract request) => await _adminRepository.AddContract(request);
+
+        public async Task<Response<List<Contract>>> GetContracts() => await _adminRepository.GetContracts();
 
     }
 }

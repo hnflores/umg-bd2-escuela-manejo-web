@@ -67,7 +67,45 @@ namespace ESC_MANEJO.INFRASTRUCTURE.Repositories
             return responseAPI;
 
         }
+        public async Task<Response<List<User>>> GetDrivers()
+        {
+            Response<List<User>> responseAPI = new();
+            try
+            {
+                HttpServiceRequest httpRequest = new()
+                {
+                    Uri = new Uri(_configurationRepository.Admin.Url),
+                    Method = _configurationRepository.Admin.MethodGetDrivers,
+                    Body = string.Empty,
+                    Headers = new Dictionary<string, string>
+                {
+                    { "Key-Auth", _configurationRepository.Admin.KeyAuth }
+                }
+                };
+                HttpServiceResponse<Response<List<User>>> httpResponse = await _httpService.POST<Response<List<User>>>(httpRequest);
+                responseAPI.Code = httpResponse.Code;
+                if (httpResponse.Code == ResponseCode.Success)
+                    responseAPI = httpResponse.Data;
+                else
+                {
+                    if (httpResponse.Code == ResponseCode.Error)
+                        responseAPI.Description = httpResponse.Description;
+                    else if (httpResponse.Code == ResponseCode.FatalError)
+                        responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                    else if (httpResponse.Code == ResponseCode.Timeout)
+                        responseAPI.Description = _messagesDefault.TimeoutMessage;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseAPI.Code = ResponseCode.FatalError;
+                responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                _logService.SaveLogApp($"[{nameof(GetDrivers)}-{nameof(Exception)}] {ex.Message}|{ex.StackTrace}", LogType.Error);
 
+            }
+            return responseAPI;
+
+        }
 
         public async Task<Response<List<Vehicle>>> GetVehicles()
         {
@@ -220,6 +258,166 @@ namespace ESC_MANEJO.INFRASTRUCTURE.Repositories
                 responseAPI.Code = ResponseCode.FatalError;
                 responseAPI.Description = _messagesDefault.FatalErrorMessage;
                 _logService.SaveLogApp($"[{nameof(UpdateVehicle)}-{nameof(Exception)}] {ex.Message}|{ex.StackTrace}", LogType.Error);
+
+            }
+            return responseAPI;
+
+        }
+
+        public async Task<Response<List<Customer>>> GetCustomers()
+        {
+            Response<List<Customer>> responseAPI = new();
+            try
+            {
+                HttpServiceRequest httpRequest = new()
+                {
+                    Uri = new Uri(_configurationRepository.Admin.Url),
+                    Method = _configurationRepository.Admin.MethodGetCustomers,
+                    Body = string.Empty,
+                    Headers = new Dictionary<string, string>
+                {
+                    { "Key-Auth", _configurationRepository.Admin.KeyAuth }
+                }
+                };
+                HttpServiceResponse<Response<List<Customer>>> httpResponse = await _httpService.POST<Response<List<Customer>>>(httpRequest);
+                responseAPI.Code = httpResponse.Code;
+                if (httpResponse.Code == ResponseCode.Success)
+                    responseAPI = httpResponse.Data;
+                else
+                {
+                    if (httpResponse.Code == ResponseCode.Error)
+                        responseAPI.Description = httpResponse.Description;
+                    else if (httpResponse.Code == ResponseCode.FatalError)
+                        responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                    else if (httpResponse.Code == ResponseCode.Timeout)
+                        responseAPI.Description = _messagesDefault.TimeoutMessage;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseAPI.Code = ResponseCode.FatalError;
+                responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                _logService.SaveLogApp($"[{nameof(GetCustomers)}-{nameof(Exception)}] {ex.Message}|{ex.StackTrace}", LogType.Error);
+
+            }
+            return responseAPI;
+
+        }
+
+        public async Task<Response<Customer>> GetCustomerById(Customer request)
+        {
+            Response<Customer> responseAPI = new();
+            try
+            {
+                HttpServiceRequest httpRequest = new()
+                {
+                    Uri = new Uri(_configurationRepository.Admin.Url),
+                    Method = _configurationRepository.Admin.MethodGetGetCustomerById,
+                    Body = _parseService.Serialize(request),
+                    Headers = new Dictionary<string, string>
+                {
+                    { "Key-Auth", _configurationRepository.Admin.KeyAuth }
+                }
+                };
+                HttpServiceResponse<Response<Customer>> httpResponse = await _httpService.POST<Response<Customer>>(httpRequest);
+                responseAPI.Code = httpResponse.Code;
+                if (httpResponse.Code == ResponseCode.Success)
+                    responseAPI = httpResponse.Data;
+                else
+                {
+                    if (httpResponse.Code == ResponseCode.Error)
+                        responseAPI.Description = httpResponse.Description;
+                    else if (httpResponse.Code == ResponseCode.FatalError)
+                        responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                    else if (httpResponse.Code == ResponseCode.Timeout)
+                        responseAPI.Description = _messagesDefault.TimeoutMessage;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseAPI.Code = ResponseCode.FatalError;
+                responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                _logService.SaveLogApp($"[{nameof(GetCustomerById)}-{nameof(Exception)}] {ex.Message}|{ex.StackTrace}", LogType.Error);
+
+            }
+            return responseAPI;
+
+        }
+
+        public async Task<Response<string>> AddContract(Contract request)
+        {
+            Response<string> responseAPI = new();
+            try
+            {
+                HttpServiceRequest httpRequest = new()
+                {
+                    Uri = new Uri(_configurationRepository.Admin.Url),
+                    Method = _configurationRepository.Admin.MethodAddContract,
+                    Body = _parseService.Serialize(request),
+                    Headers = new Dictionary<string, string>
+                {
+                    { "Key-Auth", _configurationRepository.Admin.KeyAuth }
+                }
+                };
+                HttpServiceResponse<Response<string>> httpResponse = await _httpService.POST<Response<string>>(httpRequest);
+                responseAPI.Code = httpResponse.Code;
+                if (httpResponse.Code == ResponseCode.Success)
+                    responseAPI = httpResponse.Data;
+                else
+                {
+                    if (httpResponse.Code == ResponseCode.Error)
+                        responseAPI.Description = httpResponse.Description;
+                    else if (httpResponse.Code == ResponseCode.FatalError)
+                        responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                    else if (httpResponse.Code == ResponseCode.Timeout)
+                        responseAPI.Description = _messagesDefault.TimeoutMessage;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseAPI.Code = ResponseCode.FatalError;
+                responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                _logService.SaveLogApp($"[{nameof(AddContract)}-{nameof(Exception)}] {ex.Message}|{ex.StackTrace}", LogType.Error);
+
+            }
+            return responseAPI;
+        }
+
+
+        public async Task<Response<List<Contract>>> GetContracts()
+        {
+            Response<List<Contract>> responseAPI = new();
+            try
+            {
+                HttpServiceRequest httpRequest = new()
+                {
+                    Uri = new Uri(_configurationRepository.Admin.Url),
+                    Method = _configurationRepository.Admin.MethodGetContracts,
+                    Body = string.Empty,
+                    Headers = new Dictionary<string, string>
+                {
+                    { "Key-Auth", _configurationRepository.Admin.KeyAuth }
+                }
+                };
+                HttpServiceResponse<Response<List<Contract>>> httpResponse = await _httpService.POST<Response<List<Contract>>>(httpRequest);
+                responseAPI.Code = httpResponse.Code;
+                if (httpResponse.Code == ResponseCode.Success)
+                    responseAPI = httpResponse.Data;
+                else
+                {
+                    if (httpResponse.Code == ResponseCode.Error)
+                        responseAPI.Description = httpResponse.Description;
+                    else if (httpResponse.Code == ResponseCode.FatalError)
+                        responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                    else if (httpResponse.Code == ResponseCode.Timeout)
+                        responseAPI.Description = _messagesDefault.TimeoutMessage;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseAPI.Code = ResponseCode.FatalError;
+                responseAPI.Description = _messagesDefault.FatalErrorMessage;
+                _logService.SaveLogApp($"[{nameof(GetContracts)}-{nameof(Exception)}] {ex.Message}|{ex.StackTrace}", LogType.Error);
 
             }
             return responseAPI;

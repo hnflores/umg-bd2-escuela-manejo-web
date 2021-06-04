@@ -57,6 +57,7 @@ namespace ESC_MANEJO.WEB.Controllers
             return View(vehicle.Data);
         }
 
+        [Authorize]
         public virtual JsonResult SetIdEdit([FromBody] string id)
         {
             TempData["VehicleId"] = id;
@@ -66,9 +67,11 @@ namespace ESC_MANEJO.WEB.Controllers
 
 
         [ValidateAntiForgeryToken]
+        [Authorize]
         public virtual async Task<JsonResult> AddVehicle([FromBody] Vehicle request) => Json(await _adminService.AddVehicle(request));
 
         [ValidateAntiForgeryToken]
+        [Authorize]
         public virtual async Task<JsonResult> UpdateVehicle([FromBody] Vehicle request) => Json(await _adminService.UpdateVehicle(request));
 
     }

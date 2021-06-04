@@ -20,7 +20,7 @@
 async function LogIn() {
     const request = {
         token: document.getElementsByName('__RequestVerificationToken')[0].value,
-        UserName: document.getElementById('user').value,
+        Correo: document.getElementById('user').value,
         Password: document.getElementById('current-password').value
     }
     await showButtonLoading('btnLogin');
