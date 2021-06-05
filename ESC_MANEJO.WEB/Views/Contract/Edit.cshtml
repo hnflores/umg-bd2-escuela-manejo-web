@@ -1,0 +1,210 @@
+﻿@model ViewEditContract
+@{
+    ViewData["Title"] = "Editar Contrato";
+    List<Vehicle> vehicles = Model.Vehicles;
+    List<User> drivers = Model.Drivers;
+    List<Customer> customers = Model.Customers;
+    Contract contract = Model.Contract;
+}
+
+
+<div class="page-content-wrapper-inner">
+    <div class="viewport-header">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb has-arrow">
+                <li class="breadcrumb-item"><a asp-action="">Contratos</a></li>
+                <li class="breadcrumb-item active"><a href="#">Editar Contrato</a></li>
+            </ol>
+        </nav>
+    </div>
+    <div class="content-viewport">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="grid">
+                    <div class="grid-body">
+                        <div class="item-wrapper">
+                            <form id="updateContract" asp-antiforgery="true" method="post" class="needs-validation" novalidate>
+                                <div class="row align-items-center">
+                                    <div class="col-md-6 mb-3">
+                                        <label>Cliente</label>
+                                        <select id="customer" class="select2-container custom-select" required>
+                                            @foreach (Customer customer in customers)
+                                            {
+                                                if (customer.CustomerId == contract.CustomerId)
+                                                {
+                                                    <option selected value="@customer.CustomerId">@customer.Nombre - @customer.Apellido</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@customer.CustomerId">@customer.Nombre - @customer.Apellido</option>
+                                                }
+                                            }
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            El campo es obligatorio
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label>Conductor</label>
+                                        <select id="driver" class="select2-container custom-select" required>
+                                            @foreach (User user in drivers)
+                                            {
+                                                if (user.ColaboradorId == contract.UserId)
+                                                {
+                                                    <option selected value="@user.ColaboradorId">@user.Nombre - @user.Apellido </option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@user.ColaboradorId">@user.Nombre - @user.Apellido </option>
+                                                }
+                                            }
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            El campo es obligatorio
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label>Vehiculo</label>
+                                        <select id="vehicle" class="select2-container custom-select" required>
+                                            @foreach (Vehicle vehicle in vehicles)
+                                            {
+                                                if (vehicle.VehicleId == contract.VehicleId)
+                                                {
+                                                    <option selected value="@vehicle.VehicleId">@vehicle.VehicleId - @vehicle.Marca - @vehicle.Modelo - @vehicle.Anio</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@vehicle.VehicleId">@vehicle.VehicleId - @vehicle.Marca - @vehicle.Modelo - @vehicle.Anio</option>
+                                                }
+                                            }
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            El campo es obligatorio
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label>Costo</label>
+                                        <input id="costo" type="tel" class="form-control" maxlength="20" value="@contract.Costo.ToString("N2")" required />
+                                        <div class="invalid-feedback">
+                                            El campo es obligatorio
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label>Fecha Inicio</label>
+                                        <input id="fecha-inicio" type="date" class="form-control" value="@contract.FechaInicio.ToString("yyyy-MM-dd")" required />
+                                        <div class="invalid-feedback">
+                                            El campo es obligatorio
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label>Fecha Fin</label>
+                                        <input id="fecha-fin" type="date" class="form-control" value="@contract.FechaFin.ToString("yyyy-MM-dd")" required />
+                                        <div class="invalid-feedback">
+                                            El campo es obligatorio
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row justify-content-center">
+                                    <h5 class="text-center text-dark">Sesiones</h5>
+                                    <div class="col-md-12 mb-3">
+                                        <div class="text-right">
+                                            <a data-toggle="modal" data-target="#mdlAddSesion" href="#" class="btn btn-outline-primary">Agregar Sesión</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            <table id="tblSesion" class="data-table table table-striped w-100">
+                                                <thead>
+                                                    <tr>
+                                                        <td>Fecha Inicio</td>
+                                                        <td>Fecha Fin</td>
+                                                        <td></td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (Sesion sesion in contract.Sesiones)
+                                                    {
+                                                        <tr>
+                                                            <td>@sesion.FechaInicio.ToString("yyyy-MM-dd")</td>
+                                                            <td>@sesion.FechaFin.ToString("yyyy-MM-dd")</td>
+                                                            <td><button type="button" class="btn btn-danger">Eliminar</button></td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-5">
+                                    <button id="btnAdd" type="submit" class="btn btn-behance">
+                                        <div class="btn-load" style="display:none">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            Procesando...
+                                        </div>
+                                        <div class="btn-visible">
+                                            Guardar
+                                        </div>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="mdlAddSesion" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar Sesión</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addSession" class="needs-validation" novalidate>
+                    <div class="row align-items-center">
+                        <div class="col-md-6 mb-3">
+                            <label>Fecha Inicio</label>
+                            <input id="sesion-fecha-inicio" type="date" class="form-control" required />
+                            <div class="invalid-feedback">
+                                El campo es obligatorio
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Fecha Fin</label>
+                            <input id="sesion-fecha-fin" type="date" class="form-control" required />
+                            <div class="invalid-feedback">
+                                El campo es obligatorio
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="text-center mt-5">
+                        <button id="btnAddSesion" type="submit" class="btn btn-behance">
+                            <div class="btn-load" style="display:none">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Procesando...
+                            </div>
+                            <div class="btn-visible">
+                                Guardar
+                            </div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+
+    <script src="~/js/pages/contract/_edit.js" asp-append-version="true"></script>
+}

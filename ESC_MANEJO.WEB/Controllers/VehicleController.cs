@@ -74,5 +74,8 @@ namespace ESC_MANEJO.WEB.Controllers
         [Authorize]
         public virtual async Task<JsonResult> UpdateVehicle([FromBody] Vehicle request) => Json(await _adminService.UpdateVehicle(request));
 
+        [Authorize]
+        public virtual async Task<JsonResult> DeleteVehicle([FromBody] string vehicleId) => Json(await _adminService.DeleteVehicle(vehicleId));
+
     }
 }

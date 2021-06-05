@@ -8,6 +8,7 @@ using ESC_MANEJO.WEB.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -48,6 +49,27 @@ namespace ESC_MANEJO.WEB.Controllers
         }
 
         [Authorize]
+        public async Task<IActionResult> Edit()
+        {
+            ViewEditContract view = new();
+            int contractId = Convert.ToInt32(TempData["ContractId"] as string);
+            TempData["ContractId"] = contractId.ToString();
+            Response<List<Customer>> customers = await _adminService.GetCustomers();
+            Response<List<User>> drivers = await _adminService.GetDrivers();
+            Response<List<Vehicle>> vehicles = await _adminService.GetVehicles();
+            Response<Contract> contract = await _adminService.GetContract(contractId);
+            if (customers.Code == ResponseCode.FatalError || drivers.Code == ResponseCode.FatalError || vehicles.Code == ResponseCode.Error || contract.Code == ResponseCode.FatalError)
+            {
+                return RedirectToAction();
+            }
+            drivers.Data = drivers.Data.Where(x => x.Estado == "A" || x.ColaboradorId == contract.Data.UserId).ToList();
+            customers.Data = customers.Data.Where(x => x.Estado == "A").ToList();
+            vehicles.Data = vehicles.Data.Where(x => x.Estado == "A" || x.VehicleId == contract.Data.VehicleId).ToList();
+            view.Customers = customers.Data; view.Drivers = drivers.Data; view.Vehicles = vehicles.Data; view.Contract = contract.Data;
+            return View(view);
+        }
+
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             Response<List<Contract>> contracts = await _adminService.GetContracts();
@@ -58,9 +80,28 @@ namespace ESC_MANEJO.WEB.Controllers
             return View(contracts.Data);
         }
 
+        [Authorize]
+        public virtual JsonResult SetIdEdit([FromBody] int id)
+        {
+            TempData["ContractId"] = id.ToString();
+            return Json(Url.Action("Edit", "Contract"));
+        }
+
 
         [ValidateAntiForgeryToken]
         [Authorize]
         public virtual async Task<JsonResult> AddContract([FromBody] Contract request) => Json(await _adminService.AddContract(request));
+
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public virtual async Task<JsonResult> UpdateContract([FromBody] Contract request)
+        {
+            int contractId = Convert.ToInt32(TempData["ContractId"] as string);
+            TempData["ContractId"] = contractId.ToString();
+            request.ContractId = contractId;
+            return Json(await _adminService.UpdateContract(request));
+        }
+        [Authorize]
+        public virtual async Task<JsonResult> DeleteContract([FromBody] int contractId) => Json(await _adminService.DeleteContract(contractId));
     }
 }

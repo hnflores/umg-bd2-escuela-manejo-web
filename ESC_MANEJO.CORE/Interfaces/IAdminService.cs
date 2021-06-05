@@ -15,10 +15,14 @@ namespace ESC_MANEJO.CORE.Interfaces
         Task<Response<Vehicle>> GetVehicle(string vehicleId);
         Task<Response<string>> AddVehicle(Vehicle request);
         Task<Response<string>> UpdateVehicle(Vehicle request);
+        Task<Response<string>> DeleteVehicle(string vehicleId);
 
         Task<Response<List<Customer>>> GetCustomers();
         Task<Response<Customer>> GetCustomerById(string customerId);
         Task<Response<string>> AddContract(Contract request);
         Task<Response<List<Contract>>> GetContracts();
+        Task<Response<Contract>> GetContract(int contractId);
+        Task<Response<string>> UpdateContract(Contract request);
+        Task<Response<string>> DeleteContract(int contractId);
     }
 }

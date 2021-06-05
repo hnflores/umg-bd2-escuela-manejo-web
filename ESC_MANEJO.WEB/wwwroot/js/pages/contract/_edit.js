@@ -16,8 +16,8 @@ let dtSesion;
                     event.stopPropagation();
                 } else {
                     event.preventDefault();
-                    if (form.id === 'saveContract') {
-                        await AddContract();
+                    if (form.id === 'updateContract') {
+                        await UpdateContract();
                     } else if (form.id == 'addSession') {
                         AddSession();
                     }
@@ -48,7 +48,7 @@ $('#tblSesion tbody').on('click', 'button', function () {
     dtSesion.row($(this).parents('tr')).remove().draw();
 });
 
-async function AddContract() {
+async function UpdateContract() {
     let sesiones = Array();
 
     const rowSession = dtSesion.rows().data();
@@ -76,7 +76,7 @@ async function AddContract() {
         Sesiones: sesiones
     }
     await showButtonLoading('btnAdd');
-    const response = await http('/Contract/AddContract', 'POST', request, '/Home/Error/500', request.token);
+    const response = await http('/Contract/UpdateContract', 'POST', request, '/Home/Error/500', request.token);
     if (response.code === 0) {
         await showIziToastSuccess('bottomCenter', '/Contract');
     } else {

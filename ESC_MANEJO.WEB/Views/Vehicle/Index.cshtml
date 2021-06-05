@@ -60,7 +60,10 @@
                                                 }
 
                                                 <td>
-                                                    <a href="javascript:void(0);" onclick="Edit('@vehicle.VehicleId')" class="btn btn-warning">Editar &nbsp; <i class="mdi mdi-circle-edit-outline link-icon"></i></a>
+                                                    <div class="btn-group">
+                                                        <a href="javascript:void(0);" onclick="Edit('@vehicle.VehicleId')" class="btn btn-warning mr-2"><i class="mdi mdi-circle-edit-outline link-icon"></i></a>
+                                                        <a href="javascript:void(0);" onclick="Delete('@vehicle.VehicleId', '@vehicle.Estado')" class="btn btn-danger"><i class="mdi mdi-delete link-icon"></i></a>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         }

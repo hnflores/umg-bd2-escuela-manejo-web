@@ -62,6 +62,7 @@ namespace ESC_MANEJO.CORE.Services
         }
         public async Task<Response<string>> AddVehicle(Vehicle request) => await _adminRepository.AddVehicle(request);
         public async Task<Response<string>> UpdateVehicle(Vehicle request) => await _adminRepository.UpdateVehicle(request);
+        public async Task<Response<string>> DeleteVehicle(string vehicleId) => await _adminRepository.DeleteVehicle(new Vehicle { VehicleId = vehicleId });
 
         public async Task<Response<List<Customer>>> GetCustomers() => await _adminRepository.GetCustomers();
         public async Task<Response<Customer>> GetCustomerById(string customerId)
@@ -81,8 +82,10 @@ namespace ESC_MANEJO.CORE.Services
         }
 
         public async Task<Response<string>> AddContract(Contract request) => await _adminRepository.AddContract(request);
-
         public async Task<Response<List<Contract>>> GetContracts() => await _adminRepository.GetContracts();
+        public async Task<Response<Contract>> GetContract(int contractId) => await _adminRepository.GetContract(new Contract { ContractId = contractId});
+        public async Task<Response<string>> UpdateContract(Contract request) => await _adminRepository.UpdateContract(request);
+        public async Task<Response<string>> DeleteContract(int contractId) => await _adminRepository.DeleteContract(new Contract { ContractId = contractId });
 
     }
 }

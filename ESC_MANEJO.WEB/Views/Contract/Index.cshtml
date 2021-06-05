@@ -22,7 +22,7 @@
                         </div>
                         <div class="item-wrapper">
                             <div class="table-responsive">
-                                <table id="dtVehicles" class="data-table table table-striped">
+                                <table id="dtContracts" class="data-table table table-striped">
                                     <thead>
                                         <tr>
                                             <th>Contrado Id</th>
@@ -66,9 +66,12 @@
                                                         break;
                                                 }
 
-                                                <td>
-                                                    <a href="javascript:void(0);" class="btn btn-primary">Ver sesiones &nbsp; <i class="mdi mdi-circle-edit-outline link-icon"></i></a>
-                                                </td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="javascript:void(0);" onclick="Edit(@contract.ContractId)" class="btn btn-sm btn-warning mr-2"><i class="mdi mdi-circle-edit-outline link-icon"></i></a>
+                                                    <a href="javascript:void(0);" onclick="Delete(@contract.ContractId)" class="btn btn-sm btn-danger"><i class="mdi mdi-delete link-icon"></i></a>
+                                                </div>
+                                            </td>
                                             </tr>
                                         }
                                     </tbody>
@@ -83,5 +86,5 @@
 </div>
 
 @section Scripts{
-    @*<script src="~/js/pages/vehicle/_index.js" asp-append-version="true"></script>*@
+    <script src="~/js/pages/contract/_index.js" asp-append-version="true"></script>
 }

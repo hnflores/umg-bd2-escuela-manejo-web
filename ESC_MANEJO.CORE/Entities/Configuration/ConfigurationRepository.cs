@@ -15,10 +15,14 @@
         public string MethodGetVehicle { get; set; }
         public string MethodAddVehicle { get; set; }
         public string MethodUpdateVehicle { get; set; }
+        public string MethodDeleteVehicle { get; set; }
         public string MethodGetCustomers { get; set; }
         public string MethodGetGetCustomerById { get; set; }
         public string MethodAddContract { get; set; }
         public string MethodGetContracts { get; set; }
+        public string MethodDeleteContract { get; set; }
+        public string MethodGetContract { get; set; }
+        public string MethodUpdateContract { get; set; }        
     }
 
 }
