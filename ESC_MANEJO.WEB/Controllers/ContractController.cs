@@ -39,7 +39,7 @@ namespace ESC_MANEJO.WEB.Controllers
             Response<List<Vehicle>> vehicles = await _adminService.GetVehicles();
             if (customers.Code == ResponseCode.FatalError || drivers.Code == ResponseCode.FatalError || vehicles.Code == ResponseCode.Error)
             {
-                return RedirectToAction();
+                return Redirect(Url.Action("Error", "Home", new { Id = 500 }));
             }
             drivers.Data = drivers.Data.Where(x => x.Estado == "A").ToList();
             customers.Data = customers.Data.Where(x => x.Estado == "A").ToList();
@@ -60,7 +60,7 @@ namespace ESC_MANEJO.WEB.Controllers
             Response<Contract> contract = await _adminService.GetContract(contractId);
             if (customers.Code == ResponseCode.FatalError || drivers.Code == ResponseCode.FatalError || vehicles.Code == ResponseCode.Error || contract.Code == ResponseCode.FatalError)
             {
-                return RedirectToAction();
+                return Redirect(Url.Action("Error", "Home", new { Id = 500 }));
             }
             drivers.Data = drivers.Data.Where(x => x.Estado == "A" || x.ColaboradorId == contract.Data.UserId).ToList();
             customers.Data = customers.Data.Where(x => x.Estado == "A").ToList();
@@ -75,7 +75,7 @@ namespace ESC_MANEJO.WEB.Controllers
             Response<List<Contract>> contracts = await _adminService.GetContracts();
             if (contracts.Code == ResponseCode.FatalError)
             {
-                return RedirectToAction();
+                return Redirect(Url.Action("Error", "Home", new { Id = 500 }));
             }
             return View(contracts.Data);
         }

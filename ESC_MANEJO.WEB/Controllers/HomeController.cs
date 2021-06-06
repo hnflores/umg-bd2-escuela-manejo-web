@@ -23,7 +23,6 @@ namespace ESC_MANEJO.WEB.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            TempData["mydata"] = "data";
             return View();
         }
 
@@ -33,9 +32,9 @@ namespace ESC_MANEJO.WEB.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(int id = 500)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(id);
         }
 
         public async Task<IActionResult> Logout()

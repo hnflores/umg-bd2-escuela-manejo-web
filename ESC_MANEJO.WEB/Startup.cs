@@ -58,13 +58,16 @@ namespace ESC_MANEJO.WEB
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error/500");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
+            if (env.IsDevelopment())
+            {                
+                //app.UseHttpsRedirection();
+            }
             app.UseStaticFiles();
-
+            app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

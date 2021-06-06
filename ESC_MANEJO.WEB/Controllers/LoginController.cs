@@ -19,14 +19,16 @@ namespace ESC_MANEJO.WEB.Controllers
     {
         private readonly IAdminService _adminService;
         private readonly ILogService _logService;
+        private readonly ICryptoService _cryptoService;
         private readonly ConfigurationMessages _messagesDefault;
-        
+
         public LoginController(IAdminService adminService, ILogService logService,
-            IOptions<ConfigurationMessages> messagesDefault)
+            IOptions<ConfigurationMessages> messagesDefault, ICryptoService cryptoService)
         {
             _adminService = adminService;
             _logService = logService;
-            _messagesDefault = messagesDefault.Value;            
+            _messagesDefault = messagesDefault.Value;
+            _cryptoService = cryptoService;
         }
         public IActionResult Index()
         {
@@ -40,6 +42,7 @@ namespace ESC_MANEJO.WEB.Controllers
             Response<string> response = new();
             try
             {
+                user.Password = _cryptoService.Encode(user.Password);
                 response = await _adminService.LogIn(user);
                 if (response.Code == ResponseCode.Success)
                 {

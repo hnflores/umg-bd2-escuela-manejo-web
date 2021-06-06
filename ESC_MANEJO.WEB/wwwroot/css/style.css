@@ -16066,7 +16066,7 @@ h6 {
 .error_page.error_3 {
     padding: 3% 0 3%;
     min-height: 100vh;
-    background: url(../../images/samples/error__bg_2.svg) no-repeat 80% center;
+    background: url(../../images/error.svg) no-repeat 80% center;
     background-size: 40%;
     background-color: #fff;
     display: flex;

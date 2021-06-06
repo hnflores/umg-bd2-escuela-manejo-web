@@ -16,7 +16,7 @@ namespace ESC_MANEJO.CORE.Services
         {
             _configurationLog = configurationLog.Value;
         }
-        private void CreateDirectory(string path)
+        private static void CreateDirectory(string path)
         {
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
@@ -28,7 +28,7 @@ namespace ESC_MANEJO.CORE.Services
                 type = "Error";
             else
                 type = "Information";
-            string path = $"{_configurationLog.Path}{_configurationLog.Date}\\{type}\\";
+            string path = $"{Directory.GetCurrentDirectory()}/{_configurationLog.Path}{_configurationLog.Date}/{type}/";
             try
             {
                 CreateDirectory(path);
